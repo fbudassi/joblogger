@@ -9,6 +9,7 @@ repositories {
 // Project dependencies.
 dependencies {
 	// Compile-time dependencies.
+	compile "org.postgresql:postgresql:9.4.1208.jre7"
 
 	// Test dependencies.
     testCompile 'junit:junit:latest.release'
@@ -19,4 +20,9 @@ dependencies {
 // Define Gradle Wrapper version.
 task wrapper(type: Wrapper) {
     gradleVersion = '2.11'
+}
+
+// Eclipse plugin config hack: avoid compiling test classes (src/test) and ordinary classes (src/main) to the same build directory.
+eclipse.classpath.file.withXml { xml ->
+    xml.asNode().'**'.findAll { it.name() == 'classpathentry' && it.'@path'.startsWith("src/test/")}*.@output = "test-bin"
 }

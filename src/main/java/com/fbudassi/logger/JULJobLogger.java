@@ -35,14 +35,18 @@ public class JULJobLogger extends AbstractJobLogger {
 	 */
 	@Override
 	protected void init(String name, Properties props) throws Exception {
+		// Force the VM to load custom log levels before we use JobLoggerLevel.parse().
+		Class.forName(JobLoggerLevel.class.getCanonicalName());
+
+		// Get logger and set minimum log level.
 		logger = Logger.getLogger(name);
 		logger.setLevel(JobLoggerLevel.parse(props.getProperty(JobLoggerProperty.MIN_LEVEL.getKey())));
-		
+
 		// Console Handler.
 		if (Boolean.parseBoolean(props.getProperty(JobLoggerProperty.CONSOLE_ENABLED.getKey()))) {
 			ConsoleHandler ch = new ConsoleHandler();
 			ch.setLevel(JobLoggerLevel.ALL);
-			
+
 			logger.addHandler(ch);
 		}
 
@@ -53,7 +57,7 @@ public class JULJobLogger extends AbstractJobLogger {
 
 			Handler fh = new FileHandler(dest, append);
 			fh.setFormatter(new SimpleFormatter());
-			
+
 			logger.addHandler(fh);
 		}
 
@@ -139,7 +143,7 @@ public class JULJobLogger extends AbstractJobLogger {
 	 */
 	@Override
 	public void warning(String msg) {
-		logger.log(JobLoggerLevel.WARNING, msg);
+		logger.log(JobLoggerLevel.WARN, msg);
 	}
 
 	/**
@@ -147,7 +151,7 @@ public class JULJobLogger extends AbstractJobLogger {
 	 */
 	@Override
 	public void warning(String msg, Object... params) {
-		logger.log(JobLoggerLevel.WARNING, msg, params);
+		logger.log(JobLoggerLevel.WARN, msg, params);
 	}
 
 	/**
@@ -155,7 +159,7 @@ public class JULJobLogger extends AbstractJobLogger {
 	 */
 	@Override
 	public void warning(String msg, Throwable thrown) {
-		logger.log(JobLoggerLevel.WARNING, msg, thrown);
+		logger.log(JobLoggerLevel.WARN, msg, thrown);
 	}
 
 	/**
