@@ -37,10 +37,6 @@ public class DatabaseHandlerTest {
 	/**
 	 * Database queries.
 	 */
-	private static final String CREATE_TABLE = "CREATE TABLE " + TABLE + " (logTime timestamp NOT NULL, level varchar(32) NOT NULL,"
-			+ "logger varchar(255) NOT NULL, message varchar(255) NOT NULL, sequence integer NOT NULL, threadID integer NOT NULL,"
-			+ "stackTrace varchar(8192))";
-
 	private static final String SELECT_COUNT_FROM_TABLE = "SELECT COUNT(*) FROM " + TABLE;
 	private static final String SELECT_FROM_TABLE = "SELECT * FROM " + TABLE;
 
@@ -69,9 +65,6 @@ public class DatabaseHandlerTest {
 
 		// Open connection.
 		connection = DriverManager.getConnection(URL, connProps);
-
-		// Create log table.
-		connection.createStatement().executeQuery(CREATE_TABLE);
 
 		// Disable auto-commit to let us rollback changes after every test. This gives us isolation between tests.
 		connection.setAutoCommit(false);

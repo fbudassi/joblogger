@@ -13,6 +13,8 @@ import org.junit.Test;
 public class NullJobLoggerTest {
 
 	private static final String LOG_MESSAGE = "Test log message";
+	private static final String LOG_MESSAGE_PARAM = "Test log message: {0}";
+	private static final String PARAM = "test_param";
 
 	private static NullJobLogger logger = NullJobLogger.NULL_JOB_LOGGER;
 
@@ -36,7 +38,7 @@ public class NullJobLoggerTest {
 
 	@Test
 	public void testErrorParams() {
-		logger.error(LOG_MESSAGE, LOG_MESSAGE);
+		logger.error(LOG_MESSAGE_PARAM, PARAM);
 	}
 
 	@Test
@@ -54,7 +56,7 @@ public class NullJobLoggerTest {
 
 	@Test
 	public void testWarningParams() {
-		logger.warning(LOG_MESSAGE, LOG_MESSAGE);
+		logger.warning(LOG_MESSAGE_PARAM, PARAM);
 	}
 
 	@Test
@@ -72,7 +74,7 @@ public class NullJobLoggerTest {
 
 	@Test
 	public void testMessageParams() {
-		logger.message(LOG_MESSAGE, LOG_MESSAGE);
+		logger.message(LOG_MESSAGE_PARAM, PARAM);
 	}
 
 	@Test

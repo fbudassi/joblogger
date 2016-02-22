@@ -35,6 +35,14 @@ public class JULJobLogger extends AbstractJobLogger {
 	 */
 	@Override
 	protected void init(String name, Properties props) throws Exception {
+		if (StringUtils.isBlank(name)) {
+			throw new IllegalArgumentException("Parameter name can't be blank");
+		}
+
+		if (props == null) {
+			throw new IllegalArgumentException("Parameter props can't be null");
+		}
+		
 		// Force the VM to load custom log levels before we use JobLoggerLevel.parse().
 		Class.forName(JobLoggerLevel.class.getCanonicalName());
 
@@ -112,6 +120,24 @@ public class JULJobLogger extends AbstractJobLogger {
 
 		// Open connection.
 		return connection = DriverManager.getConnection(url, connProps);
+	}
+
+	/**
+	 * Return the inner java.util.logging.Logger.
+	 * 
+	 * @return
+	 */
+	protected Logger getInnerLogger() {
+		return logger;
+	}
+
+	/**
+	 * Return the open Connectio to the database.
+	 * 
+	 * @return
+	 */
+	protected Connection getOpenConnection() {
+		return connection;
 	}
 
 	/**

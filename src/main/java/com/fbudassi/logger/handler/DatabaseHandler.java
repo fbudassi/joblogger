@@ -2,6 +2,7 @@ package com.fbudassi.logger.handler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.logging.ErrorManager;
@@ -24,6 +25,13 @@ public class DatabaseHandler extends Handler {
 	private PreparedStatement psTruncate;
 
 	private static final String TABLE_KEY = "{table}";
+
+	/**
+	 * SQL queries.
+	 */
+	private static final String CREATE_TABLE_SQL = "create table {table} (logTime timestamp not null, level varchar(32) not null,"
+			+ "logger varchar(255) not null, message varchar(255) not null, sequence integer not null, threadID integer not null,"
+			+ "stackTrace varchar(8192))";
 	private static final String INSERT_SQL = "insert into {table} (logTime,level,logger,message,sequence,threadID,stackTrace) values (?,?,?,?,?,?,?)";
 	private static final String TRUNCATE_SQL = "truncate table {table}";
 
@@ -45,9 +53,16 @@ public class DatabaseHandler extends Handler {
 			throw new IllegalArgumentException("Parameter tableName can't be empty");
 		}
 
+		// If log table does not exist, create it.
+		if (!isTablePresent(connection, table)) {
+			connection.createStatement().executeQuery(CREATE_TABLE_SQL.replace(TABLE_KEY, table));
+		}
+
+		// Create prepared statements.
 		psInsert = connection.prepareStatement(INSERT_SQL.replace(TABLE_KEY, table));
 		psTruncate = connection.prepareStatement(TRUNCATE_SQL.replace(TABLE_KEY, table));
 
+		// Set simple formatter instead of the default XMLFormatter().
 		setFormatter(new SimpleFormatter());
 	}
 
@@ -100,5 +115,18 @@ public class DatabaseHandler extends Handler {
 		} catch (SQLException e) {
 			reportError(e.getMessage(), e, ErrorManager.GENERIC_FAILURE);
 		}
+	}
+
+	/**
+	 * Check if a certain table exists in the database.
+	 * 
+	 * @param connection
+	 * @param table
+	 * @return
+	 * @throws SQLException
+	 */
+	private boolean isTablePresent(Connection connection, String table) throws SQLException {
+		ResultSet rs = connection.getMetaData().getTables(null, null, table.toUpperCase(), null);
+		return rs.next();
 	}
 }
