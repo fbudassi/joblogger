@@ -14,6 +14,8 @@ import org.junit.Test;
  * @author fbudassi
  */
 public class PropertiesUtilsTest {
+	
+	private static final String TEST_KEY = "test";
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testLoadFromClassPathNull() throws IOException {
@@ -52,29 +54,29 @@ public class PropertiesUtilsTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testSetIfBlankInvalidProps() {
-		PropertiesUtils.setIfBlank(null, "test", "value");
+		PropertiesUtils.setIfBlank(null, TEST_KEY, "");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testSetIfBlankInvalidKey() {
 		Properties props = new Properties();
-		PropertiesUtils.setIfBlank(props, null, "value");
+		PropertiesUtils.setIfBlank(props, null, "");
 	}
 
 	@Test
 	public void testSetIfBlankTrue() {
 		Properties props = new Properties();
-		PropertiesUtils.setIfBlank(props, "test", "value");
+		PropertiesUtils.setIfBlank(props, TEST_KEY, "value");
 
-		assertThat(props.getProperty("test"), is("value"));
+		assertThat(props.getProperty(TEST_KEY), is("value"));
 	}
 
 	@Test
 	public void testSetIfBlankFalse() {
 		Properties props = new Properties();
-		props.setProperty("test", "old");
-		PropertiesUtils.setIfBlank(props, "test", "new");
+		props.setProperty(TEST_KEY, "old");
+		PropertiesUtils.setIfBlank(props, TEST_KEY, "new");
 
-		assertThat(props.getProperty("test"), is("old"));
+		assertThat(props.getProperty(TEST_KEY), is("old"));
 	}
 }
