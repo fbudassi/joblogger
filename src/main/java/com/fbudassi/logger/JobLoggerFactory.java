@@ -52,7 +52,7 @@ public final class JobLoggerFactory {
 	 * @throws IOException
 	 */
 	public static JobLogger getLogger(Class<?> clazz) {
-		return getLogger(clazz.getName());
+		return getLogger(clazz.getCanonicalName());
 	}
 
 	/**
