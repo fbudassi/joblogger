@@ -7,7 +7,6 @@ import java.util.Properties;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
@@ -37,11 +36,14 @@ public class JULJobLogger extends AbstractJobLogger {
 	@Override
 	protected void init(String name, Properties props) throws Exception {
 		logger = Logger.getLogger(name);
-		logger.setLevel(Level.parse(props.getProperty(JobLoggerProperty.MIN_LEVEL.getKey())));
-
+		logger.setLevel(JobLoggerLevel.parse(props.getProperty(JobLoggerProperty.MIN_LEVEL.getKey())));
+		
 		// Console Handler.
 		if (Boolean.parseBoolean(props.getProperty(JobLoggerProperty.CONSOLE_ENABLED.getKey()))) {
-			logger.addHandler(new ConsoleHandler());
+			ConsoleHandler ch = new ConsoleHandler();
+			ch.setLevel(JobLoggerLevel.ALL);
+			
+			logger.addHandler(ch);
 		}
 
 		// File Handler.
