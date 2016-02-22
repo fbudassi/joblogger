@@ -1,0 +1,22 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+// Repositories to get dependencies from.
+repositories {
+    mavenCentral()
+}
+
+// Project dependencies.
+dependencies {
+	// Compile-time dependencies.
+
+	// Test dependencies.
+    testCompile 'junit:junit:latest.release'
+    testCompile "org.hamcrest:hamcrest-library:latest.release"
+	testCompile "org.hsqldb:hsqldb:latest.release"
+}
+
+// Define Gradle Wrapper version.
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.11'
+}
