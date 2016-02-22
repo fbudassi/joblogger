@@ -1,7 +1,6 @@
 package com.fbudassi.logger;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
 import com.fbudassi.logger.util.PropertiesUtils;
@@ -66,12 +65,16 @@ public final class JobLoggerFactory {
 	public static JobLogger getLogger(String name) {
 		try {
 			// Get JobLogger concrete implementation to use.
-			Class<JobLogger> jobLogger = (Class<JobLogger>) Class.forName(props.getProperty(JobLoggerProperty.IMPLEMENTATION.getKey()));
+			Class<AbstractJobLogger> jlClass = (Class<AbstractJobLogger>) Class.forName(props.getProperty(JobLoggerProperty.IMPLEMENTATION.getKey()));
 
-			// Get implementation's constructor and build the logger.
-			return jobLogger.getDeclaredConstructor(new Class[] {String.class, Properties.class}).newInstance(name, props);
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e) {
+			// Get implementation's constructor and construct the logger.
+			AbstractJobLogger jl = jlClass.getDeclaredConstructor(new Class[] {}).newInstance();
+
+			// Initialize concrete JobLogger.
+			jl.init(name, props);
+
+			return jl;
+		} catch (Exception e) {
 			System.err.println("Unable to get JobLogger: " + e.getMessage());
 			e.printStackTrace();
 

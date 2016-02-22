@@ -23,7 +23,8 @@ public enum JobLoggerProperty {
 	DB_DRIVER("joblogger.handler.db.driver", null),
 	DB_URL("joblogger.handler.db.url", null),
 	DB_USER("joblogger.handler.db.user", null),
-	DB_PASSWORD("joblogger.handler.db.password", null);
+	DB_PASSWORD("joblogger.handler.db.password", null),
+	DB_TABLE("joblogger.handler.db.table", "log");
 
 	private final String key;
 	private final String defaultValue;

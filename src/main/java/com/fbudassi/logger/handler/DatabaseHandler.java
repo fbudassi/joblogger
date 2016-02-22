@@ -1,11 +1,9 @@
 package com.fbudassi.logger.handler;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Properties;
 import java.util.logging.ErrorManager;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
@@ -32,38 +30,23 @@ public class DatabaseHandler extends Handler {
 	/**
 	 * DatabaseHandler constructor.
 	 * 
-	 * @param driver
-	 *            The database driver.
-	 * @param connectionString
-	 *            The connection string to the database.
-	 * @param props
-	 *            A set of properties to open the connection to the database.
-	 * @param tableName
+	 * @param connection
+	 *            The connection to the database.
+	 * @param table
 	 *            The table name inside the database to store log messages.
 	 * @throws SQLException
 	 */
-	public DatabaseHandler(String driver, String connectionString, Properties props, String tableName) throws SQLException {
-		if (StringUtils.isBlank(driver)) {
-			throw new IllegalArgumentException("Parameter driver can't be empty");
+	public DatabaseHandler(Connection connection, String table) throws SQLException {
+		if (connection == null) {
+			throw new IllegalArgumentException("Parameter connection can't be null");
 		}
 
-		if (StringUtils.isBlank(connectionString)) {
-			throw new IllegalArgumentException("Parameter connectionString can't be empty");
-		}
-
-		if (StringUtils.isBlank(tableName)) {
+		if (StringUtils.isBlank(table)) {
 			throw new IllegalArgumentException("Parameter tableName can't be empty");
 		}
 
-		try {
-			Class.forName(driver);
-		} catch (ClassNotFoundException e) {
-			throw new IllegalStateException("Could not load JDBC driver class [" + driver + "]", e);
-		}
-
-		connection = DriverManager.getConnection(connectionString, props);
-		psInsert = connection.prepareStatement(INSERT_SQL.replace(TABLE_KEY, tableName));
-		psTruncate = connection.prepareStatement(TRUNCATE_SQL.replace(TABLE_KEY, tableName));
+		psInsert = connection.prepareStatement(INSERT_SQL.replace(TABLE_KEY, table));
+		psTruncate = connection.prepareStatement(TRUNCATE_SQL.replace(TABLE_KEY, table));
 
 		setFormatter(new SimpleFormatter());
 	}
