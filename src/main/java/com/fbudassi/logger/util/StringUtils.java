@@ -45,6 +45,6 @@ public class StringUtils {
 	 * @return The string truncated.
 	 */
 	public static String truncate(String str, int length) {
-		return str.length() <= length ? str : str.substring(0, length);
+		return str == null || str.length() <= length ? str : str.substring(0, length);
 	}
 }
