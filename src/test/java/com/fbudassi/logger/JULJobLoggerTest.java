@@ -80,7 +80,7 @@ public class JULJobLoggerTest {
 
 		Logger jul = jjl.getInnerLogger();
 		assertThat(jul.getName(), is("testInitNoHandlers"));
-		assertThat(jul.getLevel(), is(JobLoggerLevel.ALL));
+		assertThat(jul.getLevel(), is(JULJobLoggerLevel.ALL));
 	}
 
 	@Test

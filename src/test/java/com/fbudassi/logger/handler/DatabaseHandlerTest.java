@@ -14,7 +14,7 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.fbudassi.logger.JobLoggerLevel;
+import com.fbudassi.logger.JULJobLoggerLevel;
 
 /**
  * Tests for DatabaseHandler. It uses an in-memory RDBMS to avoid mocking JDBC.
@@ -104,7 +104,7 @@ public class DatabaseHandlerTest {
 	@Test
 	public void testPublishSingleLogRecord() throws SQLException {
 		// Build logrecord.
-		LogRecord lr = new LogRecord(JobLoggerLevel.ERROR, LOG_MESSAGE);
+		LogRecord lr = new LogRecord(JULJobLoggerLevel.ERROR, LOG_MESSAGE);
 		lr.setLoggerName(this.getClass().getCanonicalName());
 
 		// Publish logrecord.
@@ -120,7 +120,7 @@ public class DatabaseHandlerTest {
 		ResultSet selectRs = connection.createStatement().executeQuery(SELECT_FROM_TABLE);
 		assertThat(selectRs.next(), is(true));
 		assertThat(selectRs.getString(1), is(notNullValue()));
-		assertThat(selectRs.getString(2), is(JobLoggerLevel.ERROR.toString()));
+		assertThat(selectRs.getString(2), is(JULJobLoggerLevel.ERROR.toString()));
 		assertThat(selectRs.getString(3), is(this.getClass().getCanonicalName()));
 		assertThat(selectRs.getString(4), is(LOG_MESSAGE));
 		assertThat(selectRs.getString(5), is(notNullValue()));
@@ -132,10 +132,10 @@ public class DatabaseHandlerTest {
 	@Test
 	public void testPublishTwoLogRecords() throws SQLException {
 		// Build logrecords.
-		LogRecord firstLr = new LogRecord(JobLoggerLevel.ERROR, LOG_MESSAGE);
+		LogRecord firstLr = new LogRecord(JULJobLoggerLevel.ERROR, LOG_MESSAGE);
 		firstLr.setLoggerName(this.getClass().getCanonicalName());
 
-		LogRecord secondLr = new LogRecord(JobLoggerLevel.WARN, LOG_MESSAGE);
+		LogRecord secondLr = new LogRecord(JULJobLoggerLevel.WARN, LOG_MESSAGE);
 		secondLr.setLoggerName(this.getClass().getCanonicalName());
 
 		// Publish logrecords.
@@ -151,16 +151,16 @@ public class DatabaseHandlerTest {
 		// Assert that the correct LogRecord was published.
 		ResultSet selectRs = connection.createStatement().executeQuery(SELECT_FROM_TABLE);
 		assertThat(selectRs.next(), is(true));
-		assertThat(selectRs.getString(2), is(JobLoggerLevel.ERROR.toString()));
+		assertThat(selectRs.getString(2), is(JULJobLoggerLevel.ERROR.toString()));
 		assertThat(selectRs.next(), is(true));
-		assertThat(selectRs.getString(2), is(JobLoggerLevel.WARN.toString()));
+		assertThat(selectRs.getString(2), is(JULJobLoggerLevel.WARN.toString()));
 		assertThat(selectRs.next(), is(false));
 	}
 
 	@Test
 	public void testPublishStackTraceLogRecord() throws SQLException {
 		// Build logrecord.
-		LogRecord lr = new LogRecord(JobLoggerLevel.ERROR, LOG_MESSAGE);
+		LogRecord lr = new LogRecord(JULJobLoggerLevel.ERROR, LOG_MESSAGE);
 		lr.setLoggerName(this.getClass().getCanonicalName());
 		lr.setThrown(new Exception()); // add a throwable object
 
@@ -177,7 +177,7 @@ public class DatabaseHandlerTest {
 		ResultSet selectRs = connection.createStatement().executeQuery(SELECT_FROM_TABLE);
 		assertThat(selectRs.next(), is(true));
 		assertThat(selectRs.getString(1), is(notNullValue()));
-		assertThat(selectRs.getString(2), is(JobLoggerLevel.ERROR.toString()));
+		assertThat(selectRs.getString(2), is(JULJobLoggerLevel.ERROR.toString()));
 		assertThat(selectRs.getString(3), is(this.getClass().getCanonicalName()));
 		assertThat(selectRs.getString(4), is(LOG_MESSAGE));
 		assertThat(selectRs.getString(5), is(notNullValue()));
