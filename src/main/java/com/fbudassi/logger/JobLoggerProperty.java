@@ -16,7 +16,7 @@ public enum JobLoggerProperty {
 	// File Handler properties
 	FILE_ENABLED("joblogger.handler.file.enabled", "false"),
 	FILE_APPEND("joblogger.handler.file.append", "true"),
-	FILE_DESTINATION("joblogger.handler.file.destination", "log.xml"),
+	FILE_DESTINATION("joblogger.handler.file.destination", "log"),
 
 	// Database Handler properties
 	DB_ENABLED("joblogger.handler.db.enabled", "false"),
