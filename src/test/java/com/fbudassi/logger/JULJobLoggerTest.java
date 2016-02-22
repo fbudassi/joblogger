@@ -78,7 +78,7 @@ public class JULJobLoggerTest {
 		JULJobLogger jjl = new JULJobLogger();
 		jjl.init("testInitNoHandlers", getProperties(false, false, false));
 
-		Logger jul = jjl.getInnerLogger();
+		Logger jul = jjl.getLogger();
 		assertThat(jul.getName(), is("testInitNoHandlers"));
 		assertThat(jul.getLevel(), is(JULJobLoggerLevel.ALL));
 	}
@@ -88,7 +88,7 @@ public class JULJobLoggerTest {
 		JULJobLogger jjl = new JULJobLogger();
 		jjl.init("testInitConsole", getProperties(true, false, false));
 
-		Logger jul = jjl.getInnerLogger();
+		Logger jul = jjl.getLogger();
 		assertThat(jul.getHandlers().length, is(1));
 		assertThat(jul.getHandlers()[0], is(instanceOf(ConsoleHandler.class)));
 	}
@@ -98,7 +98,7 @@ public class JULJobLoggerTest {
 		JULJobLogger jjl = new JULJobLogger();
 		jjl.init("testInitFile", getProperties(false, true, false));
 
-		Logger jul = jjl.getInnerLogger();
+		Logger jul = jjl.getLogger();
 		assertThat(jul.getHandlers().length, is(1));
 		assertThat(jul.getHandlers()[0], is(instanceOf(FileHandler.class)));
 	}
@@ -108,11 +108,11 @@ public class JULJobLoggerTest {
 		JULJobLogger jjl = new JULJobLogger();
 		jjl.init("testInitDb", getProperties(false, false, true));
 
-		Logger jul = jjl.getInnerLogger();
+		Logger jul = jjl.getLogger();
 		assertThat(jul.getHandlers().length, is(1));
 		assertThat(jul.getHandlers()[0], is(instanceOf(DatabaseHandler.class)));
 
-		Connection conn = jjl.getOpenConnection();
+		Connection conn = jjl.getConnection();
 		assertThat(conn, is(notNullValue()));
 	}
 

@@ -79,65 +79,8 @@ public class JULJobLogger extends AbstractJobLogger {
 			connProps.setProperty("user", props.getProperty(JobLoggerProperty.DB_USER.getKey()));
 			connProps.setProperty("password", props.getProperty(JobLoggerProperty.DB_PASSWORD.getKey()));
 
-			logger.addHandler(new DatabaseHandler(getConnection(driver, url, connProps), table));
+			logger.addHandler(new DatabaseHandler(newConnection(driver, url, connProps), table));
 		}
-	}
-
-	/**
-	 * Get a connection to the database. If a connection was already open, return that one instead.
-	 * 
-	 * @param driver
-	 *            JDBC driver to use.
-	 * @param url
-	 *            JDBC url to the database.
-	 * 
-	 * @param connProps
-	 *            Connection properties (user, password).
-	 * @return The connection.
-	 * @throws SQLException
-	 */
-	private synchronized Connection getConnection(String driver, String url, Properties connProps) throws SQLException {
-		// Return connection if already open.
-		if (connection != null) {
-			return connection;
-		}
-
-		// Check parameters.
-		if (StringUtils.isBlank(driver)) {
-			throw new IllegalArgumentException("Parameter driver can't be empty");
-		}
-
-		if (StringUtils.isBlank(url)) {
-			throw new IllegalArgumentException("Parameter url can't be empty");
-		}
-
-		// Load JDBC driver.
-		try {
-			Class.forName(driver);
-		} catch (ClassNotFoundException e) {
-			throw new IllegalStateException("Could not load JDBC driver class [" + driver + "]", e);
-		}
-
-		// Open connection.
-		return connection = DriverManager.getConnection(url, connProps);
-	}
-
-	/**
-	 * Return the inner java.util.logging.Logger.
-	 * 
-	 * @return
-	 */
-	protected Logger getInnerLogger() {
-		return logger;
-	}
-
-	/**
-	 * Return the open Connectio to the database.
-	 * 
-	 * @return
-	 */
-	protected Connection getOpenConnection() {
-		return connection;
 	}
 
 	/**
@@ -210,5 +153,62 @@ public class JULJobLogger extends AbstractJobLogger {
 	@Override
 	public void message(String msg, Throwable thrown) {
 		logger.log(JULJobLoggerLevel.MESSAGE, msg, thrown);
+	}
+
+	/**
+	 * Get a connection to the database. If a connection was already open, return that one instead.
+	 * 
+	 * @param driver
+	 *            JDBC driver to use.
+	 * @param url
+	 *            JDBC url to the database.
+	 * 
+	 * @param connProps
+	 *            Connection properties (user, password).
+	 * @return The connection.
+	 * @throws SQLException
+	 */
+	protected synchronized Connection newConnection(String driver, String url, Properties connProps) throws SQLException {
+		// Return connection if already open.
+		if (connection != null) {
+			return connection;
+		}
+
+		// Check parameters.
+		if (StringUtils.isBlank(driver)) {
+			throw new IllegalArgumentException("Parameter driver can't be empty");
+		}
+
+		if (StringUtils.isBlank(url)) {
+			throw new IllegalArgumentException("Parameter url can't be empty");
+		}
+
+		// Load JDBC driver.
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e) {
+			throw new IllegalStateException("Could not load JDBC driver class [" + driver + "]", e);
+		}
+
+		// Open connection.
+		return connection = DriverManager.getConnection(url, connProps);
+	}
+
+	/**
+	 * Return the inner java.util.logging.Logger.
+	 * 
+	 * @return
+	 */
+	protected Logger getLogger() {
+		return logger;
+	}
+
+	/**
+	 * Return the open Connection to the database.
+	 * 
+	 * @return
+	 */
+	protected Connection getConnection() {
+		return connection;
 	}
 }
