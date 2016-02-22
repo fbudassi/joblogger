@@ -100,7 +100,7 @@ public class JULJobLogger extends AbstractJobLogger {
 		}
 
 		if (StringUtils.isBlank(url)) {
-			throw new IllegalArgumentException("Parameter connectionString can't be empty");
+			throw new IllegalArgumentException("Parameter url can't be empty");
 		}
 
 		// Load JDBC driver.
