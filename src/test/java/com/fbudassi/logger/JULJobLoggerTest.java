@@ -42,7 +42,7 @@ public class JULJobLoggerTest {
 	private static final String TABLE = "joblogger";
 
 	/**
-	 * JULJobLogger instance to be used in the logger.xxxx() methods.
+	 * JULJobLogger instance to be used in the logger.message()/warning()/error() methods.
 	 */
 	private static JULJobLogger logger = new JULJobLogger();
 
@@ -111,7 +111,7 @@ public class JULJobLoggerTest {
 		Logger jul = jjl.getInnerLogger();
 		assertThat(jul.getHandlers().length, is(1));
 		assertThat(jul.getHandlers()[0], is(instanceOf(DatabaseHandler.class)));
-		
+
 		Connection conn = jjl.getOpenConnection();
 		assertThat(conn, is(notNullValue()));
 	}

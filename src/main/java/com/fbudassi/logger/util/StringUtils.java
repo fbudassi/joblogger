@@ -48,7 +48,7 @@ public class StringUtils {
 		if (length < 0) {
 			throw new IllegalArgumentException("Parameter length should be greater than zero");
 		}
-		
+
 		return str == null || str.length() <= length ? str : str.substring(0, length);
 	}
 }

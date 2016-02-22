@@ -54,7 +54,7 @@ public class PropertiesUtils {
 		if (props == null) {
 			throw new IllegalArgumentException("Parameter props can't be null");
 		}
-		
+
 		if (StringUtils.isBlank(key)) {
 			throw new IllegalArgumentException("Parameter key can't be blank");
 		}

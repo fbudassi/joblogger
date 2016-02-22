@@ -42,7 +42,7 @@ public class JULJobLogger extends AbstractJobLogger {
 		if (props == null) {
 			throw new IllegalArgumentException("Parameter props can't be null");
 		}
-		
+
 		// Force the VM to load custom log levels before we use JobLoggerLevel.parse().
 		Class.forName(JobLoggerLevel.class.getCanonicalName());
 
