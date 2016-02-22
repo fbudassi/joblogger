@@ -45,6 +45,10 @@ public class StringUtils {
 	 * @return The string truncated.
 	 */
 	public static String truncate(String str, int length) {
+		if (length < 0) {
+			throw new IllegalArgumentException("Parameter length should be greater than zero");
+		}
+		
 		return str == null || str.length() <= length ? str : str.substring(0, length);
 	}
 }

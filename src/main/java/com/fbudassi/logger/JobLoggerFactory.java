@@ -59,10 +59,24 @@ public final class JobLoggerFactory {
 	 * Find or create a logger for the given name. Depending on the JobLogger implementation, it could return an already existing logger based on name.
 	 * 
 	 * @param name
-	 * @return
+	 *            The name of the JobLogger.
+	 * @return The concrete implementation of JobLogger.
+	 */
+	public static JobLogger getLogger(String name) {
+		return getLogger(name, props);
+	}
+
+	/**
+	 * Find or create a logger for the given name. Depending on the JobLogger implementation, it could return an already existing logger based on name.
+	 * 
+	 * @param name
+	 *            The name of the JobLogger.
+	 * @param props
+	 *            A series of config properties to initialize the JobLogger.
+	 * @return The concrete implementation of JobLogger.
 	 */
 	@SuppressWarnings("unchecked")
-	public static JobLogger getLogger(String name) {
+	static JobLogger getLogger(String name, Properties props) {
 		try {
 			// Get JobLogger concrete implementation to use.
 			Class<AbstractJobLogger> jlClass = (Class<AbstractJobLogger>) Class.forName(props.getProperty(JobLoggerProperty.IMPLEMENTATION.getKey()));
