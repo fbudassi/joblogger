@@ -6,8 +6,10 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import com.fbudassi.logger.handler.DatabaseHandler;
 import com.fbudassi.logger.util.StringUtils;
@@ -47,7 +49,10 @@ public class JULJobLogger extends AbstractJobLogger {
 			String dest = props.getProperty(JobLoggerProperty.FILE_DESTINATION.getKey());
 			boolean append = Boolean.parseBoolean(props.getProperty(JobLoggerProperty.FILE_APPEND.getKey()));
 
-			logger.addHandler(new FileHandler(dest, append));
+			Handler fh = new FileHandler(dest, append);
+			fh.setFormatter(new SimpleFormatter());
+			
+			logger.addHandler(fh);
 		}
 
 		// Database Handler.
