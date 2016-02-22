@@ -12,6 +12,9 @@ import org.junit.Test;
  */
 public class ExceptionUtilsTest {
 
+	/**
+	 * getStackTrace tests.
+	 */
 	@Test
 	public void testGetStackTraceNull() {
 		assertThat(ExceptionUtils.getStackTrace(null), is(nullValue()));

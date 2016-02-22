@@ -14,11 +14,14 @@ import org.junit.Test;
  * @author fbudassi
  */
 public class PropertiesUtilsTest {
-	
+
 	private static final String TEST_KEY = "test";
 
+	/**
+	 * loadFromClasspath tests.
+	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testLoadFromClassPathNull() throws IOException {
+	public void testLoadFromClasspathNull() throws IOException {
 		PropertiesUtils.loadFromClasspath(null);
 	}
 
@@ -52,6 +55,9 @@ public class PropertiesUtilsTest {
 		}
 	}
 
+	/**
+	 * setIfBlank tests.
+	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testSetIfBlankInvalidProps() {
 		PropertiesUtils.setIfBlank(null, TEST_KEY, "");
