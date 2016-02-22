@@ -56,12 +56,6 @@ public class DatabaseHandler extends Handler {
 	 */
 	@Override
 	public void publish(LogRecord record) {
-		// Check if this record should be omitted.
-		if (getFilter() != null && !getFilter().isLoggable(record)) {
-			return;
-		}
-
-		// Store the log entry.
 		try {
 			psInsert.setInt(1, record.getLevel().intValue());
 			psInsert.setString(2, StringUtils.truncate(record.getLoggerName(), 64));
