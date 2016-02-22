@@ -1,11 +1,13 @@
 package com.fbudassi.logger;
 
+import java.util.Properties;
+
 /**
  * JobLogger that applies the Null Object pattern. Useful when something goes wrong getting a logger and we need to fail gracefully.
  * 
  * @author fbudassi
  */
-public class NullJobLogger implements JobLogger {
+public class NullJobLogger extends AbstractJobLogger {
 
 	public static final NullJobLogger NULL_JOB_LOGGER = new NullJobLogger();
 
@@ -13,6 +15,13 @@ public class NullJobLogger implements JobLogger {
 	 * Just one instance of this JobLogger should exist.
 	 */
 	private NullJobLogger() {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void init(String name, Properties props) throws Exception {
 	}
 
 	/**
