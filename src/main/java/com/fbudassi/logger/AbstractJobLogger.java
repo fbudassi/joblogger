@@ -3,7 +3,7 @@ package com.fbudassi.logger;
 import java.util.Properties;
 
 /**
- * Abstract JobLogger. Used to define init() method that is needed by JobLoggerFactory but not by any other JobLogger client.
+ * Abstract JobLogger. Used to define the protected init() method that is needed by JobLoggerFactory but not by any other JobLogger client.
  * 
  * @author fbudassi
  */
