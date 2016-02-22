@@ -1,4 +1,5 @@
-CREATE TABLE log (
+CREATE TABLE joblogger (
+  logTime timestamp NOT NULL,
   level integer NOT NULL,
   logger varchar(64) NOT NULL,
   message varchar(255) NOT NULL,
@@ -6,5 +7,4 @@ CREATE TABLE log (
   sourceClass varchar(64) NOT NULL,
   sourceMethod varchar(32) NOT NULL,
   threadID integer NOT NULL,
-  timeEntered datetime NOT NULL,
   stackTrace varchar(8192));
