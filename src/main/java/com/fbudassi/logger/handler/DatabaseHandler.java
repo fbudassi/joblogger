@@ -24,7 +24,7 @@ public class DatabaseHandler extends Handler {
 	private PreparedStatement psTruncate;
 
 	private static final String TABLE_KEY = "{table}";
-	private static final String INSERT_SQL = "insert into {table} (level,logger,message,sequence,sourceClass,sourceMethod,threadID,timeEntered,stackTrace) values (?,?,?,?,?,?,?,?,?)";
+	private static final String INSERT_SQL = "insert into {table} (logTime,level,logger,message,sequence,threadID,stackTrace) values (?,?,?,?,?,?,?)";
 	private static final String TRUNCATE_SQL = "truncate table {table}";
 
 	/**
@@ -57,15 +57,13 @@ public class DatabaseHandler extends Handler {
 	@Override
 	public void publish(LogRecord record) {
 		try {
-			psInsert.setInt(1, record.getLevel().intValue());
-			psInsert.setString(2, StringUtils.truncate(record.getLoggerName(), 64));
-			psInsert.setString(3, StringUtils.truncate(getFormatter().formatMessage(record), 255));
-			psInsert.setLong(4, record.getSequenceNumber());
-			psInsert.setString(5, StringUtils.truncate(record.getSourceClassName(), 64));
-			psInsert.setString(6, StringUtils.truncate(record.getSourceMethodName(), 32));
-			psInsert.setInt(7, record.getThreadID());
-			psInsert.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
-			psInsert.setString(9, StringUtils.truncate(ExceptionUtils.getStackTrace(record.getThrown()), 8192));
+			psInsert.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+			psInsert.setString(2, StringUtils.truncate(record.getLevel().getName(), 32));
+			psInsert.setString(3, StringUtils.truncate(record.getLoggerName(), 255));
+			psInsert.setString(4, StringUtils.truncate(getFormatter().formatMessage(record), 255));
+			psInsert.setLong(5, record.getSequenceNumber());
+			psInsert.setInt(6, record.getThreadID());
+			psInsert.setString(7, StringUtils.truncate(ExceptionUtils.getStackTrace(record.getThrown()), 8192));
 			psInsert.executeUpdate();
 		} catch (SQLException e) {
 			reportError(e.getMessage(), e, ErrorManager.WRITE_FAILURE);
