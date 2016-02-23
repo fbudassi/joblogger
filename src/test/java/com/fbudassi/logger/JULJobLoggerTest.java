@@ -3,6 +3,7 @@ package com.fbudassi.logger;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.sql.Connection;
 import java.util.Properties;
 import java.util.logging.ConsoleHandler;
@@ -98,6 +99,12 @@ public class JULJobLoggerTest {
 		Logger jul = jjl.getLogger();
 		assertThat(jul.getHandlers().length, is(1));
 		assertThat(jul.getHandlers()[0], is(instanceOf(FileHandler.class)));
+
+		// Delete log file created during the test.
+		File logFile = new File(JobLoggerProperty.FILE_DESTINATION.getDefault());
+		if (logFile.exists()) {
+			logFile.delete();
+		}
 	}
 
 	@Test

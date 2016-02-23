@@ -23,7 +23,7 @@ public class JobLoggerFactoryTest {
 
 		assertThat(props, is(notNullValue()));
 		assertThat(props.size(), is(JobLoggerProperty.values().length));
-		assertThat(props.getProperty(JobLoggerProperty.FILE_ENABLED.getKey()), is("true"));
+		assertThat(props.getProperty(JobLoggerProperty.DB_ENABLED.getKey()), is("true"));
 		assertThat(props.getProperty(JobLoggerProperty.MIN_LEVEL.getKey()), is(JobLoggerProperty.MIN_LEVEL.getDefault()));
 	}
 
@@ -53,7 +53,7 @@ public class JobLoggerFactoryTest {
 		assertThat(logger, is(instanceOf(JULJobLogger.class)));
 		JULJobLogger jjl = (JULJobLogger) logger;
 		assertThat(jjl.getLogger(), is(notNullValue()));
-		assertThat(jjl.getLogger().getHandlers().length, is(3));
+		assertThat(jjl.getLogger().getHandlers().length, is(2));
 		assertThat(jjl.getConnection(), is(notNullValue()));
 	}
 }
