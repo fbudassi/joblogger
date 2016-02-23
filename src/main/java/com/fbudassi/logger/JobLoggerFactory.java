@@ -96,4 +96,13 @@ public final class JobLoggerFactory {
 			return NullJobLogger.NULL_JOB_LOGGER;
 		}
 	}
+
+	/**
+	 * Return the Properties loaded from the classpath.
+	 * 
+	 * @return
+	 */
+	static Properties getProperties() {
+		return props;
+	}
 }
