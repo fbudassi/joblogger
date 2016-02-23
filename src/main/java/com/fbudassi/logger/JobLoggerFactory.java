@@ -103,6 +103,6 @@ public final class JobLoggerFactory {
 	 * @return
 	 */
 	static Properties getProperties() {
-		return props;
+		return (Properties) props.clone();
 	}
 }

@@ -11,8 +11,6 @@ import java.util.logging.Logger;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import com.fbudassi.logger.handler.DatabaseHandler;
 
@@ -21,11 +19,10 @@ import com.fbudassi.logger.handler.DatabaseHandler;
  * 
  * Regarding the lack of isolation with third party objects in the folling tests (JULJobLogger dependencies are not mocked), the tests will use a sociable
  * approach to the unit testing regarding external dependencies (like java.util.logging, java.sql, etc.). Those third party dependencies won't be mocked since
- * they don't affect the unit test speed enough and are thoroughly tested to trust them. (Ref: http://martinfowler.com/bliki/UnitTest.html).
+ * they don't affect the unit test speed so much, and are thoroughly tested so as to trust them. (Ref: http://martinfowler.com/bliki/UnitTest.html).
  * 
  * @author fbudassi
  */
-@RunWith(MockitoJUnitRunner.class)
 public class JULJobLoggerTest {
 
 	private static final String LOG_MESSAGE = "Test log message";

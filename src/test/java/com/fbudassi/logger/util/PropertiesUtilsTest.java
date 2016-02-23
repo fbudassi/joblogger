@@ -46,9 +46,9 @@ public class PropertiesUtilsTest {
 	}
 
 	@Test
-	public void testLoadFromClassPathInexistent() throws IOException {
+	public void testLoadFromClassPathNonExistent() throws IOException {
 		try {
-			Properties props = PropertiesUtils.loadFromClasspath("inexistent.properties");
+			Properties props = PropertiesUtils.loadFromClasspath("nonexistent.properties");
 			assertThat(props.size(), is(0));
 		} catch (IOException e) {
 			fail();

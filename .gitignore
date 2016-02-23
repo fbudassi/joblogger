@@ -14,3 +14,7 @@ gradle-app.setting
 .classpath
 .project
 bin/
+
+log
+log.lck
+joblogger.log
